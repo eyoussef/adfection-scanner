@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Share paths for the exported device report.
+
+  Scoped to the reports directory only. The WireGuard profiles live in files/wg/ and contain private
+  keys; they must never be reachable through this provider, so the parent files/ directory is not
+  exposed.
+-->
+<paths>
+    <files-path
+        name="reports"
+        path="reports/" />
+</paths>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Palette.
+
+      The design is a dark "grouped list" surface in the shape iOS uses for settings-style screens:
+      a near-black page, cards a step lighter, thin hairline separators, and a single saturated accent
+      for the one action that matters on each screen.
+
+      Contrast is checked rather than assumed: on_surface on surface_raised is ~15:1, and
+      on_surface_muted on surface_raised is ~5.5:1, both clear of WCAG AA for body text. Accent purple
+      is used only for interactive/selected state, never for body copy.
+    -->
+    <color name="surface">#FF0B0B0F</color>
+    <color name="surface_raised">#FF16161C</color>
+    <color name="surface_sunken">#FF08080B</color>
+    <color name="on_surface">#FFF2F2F7</color>
+    <color name="on_surface_muted">#FF8E8E93</color>
+    <color name="divider">#FF2C2C34</color>
+
+    <!-- Hairline separator: 1dp at low opacity, the detail that reads as "iOS list" rather than boxed -->
+    <color name="hairline">#1FFFFFFF</color>
+
+    <!--
+      Accent.
+
+      Two values, because one cannot do both jobs: a purple dark enough for white text fails as
+      coloured text on a dark card, and vice versa. Measured with WCAG 2.1:
+
+        accent      on surface_raised = 7.46:1  (coloured text / tonal button label)
+        accent_fill + ink_on_accent   = 7.77:1  (filled primary button)
+
+      The filled button therefore uses dark ink on a bright fill, which is also what iOS does — it
+      reads as a deliberate high-contrast action rather than a warning.
+    -->
+    <color name="accent">#FFA79BF9</color>
+    <color name="accent_fill">#FFA79BF9</color>
+    <color name="ink_on_accent">#FF12101F</color>
+    <color name="accent_dim">#FF2E2A47</color>
+
+    <!-- Status fill for the protection toggle. White ink on this measures 5.05:1. -->
+    <color name="accent_idle">#FF23232B</color>
+    <color name="accent_active">#FF2E7D4F</color>
+    <color name="accent_text">#FFFFFFFF</color>
+
+    <!-- Severity ramp. Kept distinguishable for the common red/green deficiency: the ramp varies in
+         lightness as well as hue, so CRITICAL/HIGH/MEDIUM stay separable without colour vision. -->
+    <color name="severity_critical">#FFFF4D4F</color>
+    <color name="severity_high">#FFFF9F2E</color>
+    <color name="severity_medium">#FFE8C547</color>
+    <color name="severity_low">#FF5AA9E6</color>
+
+    <!-- Ink used on top of a filled severity surface (the warning banner). -->
+    <color name="on_severity_fill">#FF1A1014</color>
+</resources>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Main console.
+
+  Structure follows the iOS "inset grouped list" pattern: a large title, then groups of rounded cards
+  separated by whitespace, with the primary action in its own card at the top. Everything that used to
+  be a bare flat rectangle is now a card or a row, so the screen reads as a designed app rather than a
+  stack of boxes.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="40dp">
+
+        <TextView
+            style="@style/Text.ScreenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name" />
+
+        <TextView
+            style="@style/Text.BodyMuted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/disclaimer" />
+
+        <!-- ===================== Protection ===================== -->
+
+        <TextView style="@style/SectionHeader" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/section_status" />
+
+        <LinearLayout style="@style/CardBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Status dot: the fastest read on the whole screen. -->
+                <View
+                    android:id="@+id/status_dot"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/bg_status_dot_idle" />
+
+                <TextView
+                    android:id="@+id/text_status"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/status_inactive"
+                    android:textColor="@color/on_surface"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="monospace"
+                android:textColor="@color/on_surface_muted"
+                android:textSize="13sp"
+                android:lineSpacingMultiplier="1.3" />
+
+            <TextView
+                android:id="@+id/text_indicators"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/on_surface_muted"
+                android:textSize="12sp"
+                android:lineSpacingMultiplier="1.25" />
+
+            <Button
+                android:id="@+id/toggle_protection"
+                style="@style/Button.Adfection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_start_scanning" />
+
+            <Button
+                android:id="@+id/button_open_vpn"
+                style="@style/Button.Adfection.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/open_vpn_screen" />
+        </LinearLayout>
+
+        <!-- ===================== Kill-chain ===================== -->
+
+        <TextView style="@style/SectionHeader" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/section_chain" />
+
+        <LinearLayout style="@style/CardBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/chain_dot"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/bg_status_dot_idle" />
+
+                <TextView
+                    android:id="@+id/text_chain"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/chain_none"
+                    android:textColor="@color/on_surface_muted"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ===================== Detection settings ===================== -->
+
+        <TextView style="@style/SectionHeader" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/section_settings" />
+
+        <LinearLayout style="@style/CardBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <Switch
+                android:id="@+id/switch_block_ads"
+                style="@style/Switch.Adfection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_block_ads" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/hairline" />
+
+            <Switch
+                android:id="@+id/switch_alert_tracking"
+                style="@style/Switch.Adfection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_alert_tracking" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/hairline" />
+
+            <Switch
+                android:id="@+id/switch_block_adint"
+                style="@style/Switch.Adfection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_block_adint" />
+        </LinearLayout>
+
+        <!-- ===================== Findings ===================== -->
+
+        <TextView style="@style/SectionHeader" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/section_findings" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/posture_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never" />
+
+        <TextView style="@style/SectionHeader" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/section_apps" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/app_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never" />
+
+        <Button
+            android:id="@+id/button_run_audit"
+            style="@style/Button.Adfection.Tonal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/button_run_audit" />
+
+        <!-- ===================== Evidence log ===================== -->
+
+        <TextView style="@style/SectionHeader" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/section_log" />
+
+        <TextView
+            android:id="@+id/text_log_empty"
+            style="@style/Text.BodyMuted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_empty" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/log_list"
+            android:layout_width="match_parent"
+            android:layout_height="440dp"
+            android:overScrollMode="never" />
+
+        <Button
+            android:id="@+id/button_export_report"
+            style="@style/Button.Adfection.Tonal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/button_export_report" />
+
+        <Button
+            android:id="@+id/button_clear_log"
+            style="@style/Button.Adfection.Quiet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/button_clear_log" />
+    </LinearLayout>
+</ScrollView>

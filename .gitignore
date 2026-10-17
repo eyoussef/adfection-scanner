@@ -1,0 +1,55 @@
+# ============================================================
+# Build output
+# ============================================================
+*.iml
+.gradle/
+.kotlin/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+local.properties
+
+# ============================================================
+# Secrets and per-machine state
+# ============================================================
+# Machine-specific SDK path. Never commit: it differs on every developer's machine and on CI.
+local.properties
+
+# Signing material. A leak here lets anyone ship an update as this app.
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+
+# ============================================================
+# App-private runtime data (never committed, never in the repo)
+# ============================================================
+# WireGuard profiles contain PRIVATE KEYS. The app stores them in filesDir/wg/ at runtime; this
+# catches a copy that ever lands in the working tree, for example during manual testing.
+*.conf
+wg/
+reports/
+warp/
+adfection_events.db*
+
+# ============================================================
+# IDE / editor
+# ============================================================
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ============================================================
+# OS / tooling
+# ============================================================
+Thumbs.db
+*.log
+
+# ============================================================
+# Deliberately NOT ignored
+# ============================================================
+# docs/screenshots/ and fastlane/ metadata ARE committed: they are what makes the repo and the
+# store listings presentable. Do not add them here.

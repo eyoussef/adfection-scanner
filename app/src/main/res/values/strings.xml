@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AdFection Scanner</string>
+    <string name="channel_name">Scanner status</string>
+    <string name="channel_description">Shows when the DNS inspector is running.</string>
+    <string name="notif_title">AdFection Scanner active</string>
+    <string name="notif_text">Inspecting DNS for spyware and ad-delivery infrastructure</string>
+    <string name="action_stop">Stop</string>
+
+    <string name="status_active">Protection active — inspecting DNS</string>
+    <string name="status_inactive">Protection inactive</string>
+    <string name="stats_format">DNS queries seen: %1$d\nBlocked: %2$d\nAlerted: %3$d</string>
+    <string name="action_start_scanning">Start protection</string>
+    <string name="action_stop_scanning">Stop protection</string>
+
+    <string name="section_status">Status</string>
+    <string name="section_chain">AdFection kill-chain</string>
+    <string name="section_settings">Detection settings</string>
+    <string name="section_findings">Device posture</string>
+    <string name="section_apps">Application audit</string>
+    <string name="section_log">Evidence log</string>
+
+    <string name="chain_none">No attack-chain stages observed</string>
+    <string name="chain_one">Stage 1/3 observed: ad-delivery infrastructure contact</string>
+    <string name="chain_two">Stage 2/3 observed: spyware profiling endpoint contact — escalate</string>
+    <string name="chain_full">FULL CHAIN OBSERVED — treat this device as compromised</string>
+
+    <string name="indicators_loading">Indicators: loading…</string>
+    <string name="button_run_audit">Run device &amp; app audit</string>
+    <string name="button_clear_log">Clear log</string>
+    <string name="button_export_report">Export report to share</string>
+    <string name="export_failed">Could not build the report: %1$s</string>
+    <string name="export_no_data">Run the audit and collect some events first.</string>
+
+    <!-- Alert notifications (HIGH and above only) -->
+    <string name="channel_alerts_name">Threat alerts</string>
+    <string name="channel_alerts_description">Raised when the device contacts infrastructure known to be part of the AdFection attack chain. Ad-delivery and tracking matches are logged without a notification.</string>
+    <string name="alert_title_critical">AdFection attack chain observed</string>
+    <string name="alert_title_high">Spyware infrastructure contacted</string>
+
+    <!-- Indicator freshness -->
+    <string name="indicators_format">Indicators: %1$d across %2$d sources</string>
+    <string name="indicators_compiled">Indicators: %1$d across %2$d sources · compiled %3$s</string>
+    <string name="indicators_stale">Indicators: %1$d across %2$d sources · compiled %3$s — this snapshot is %4$d days old. Infrastructure rotates; treat unmatched traffic as inconclusive.</string>
+    <string name="indicators_problems"> · %1$d parse problems</string>
+    <string name="indicators_failed">Indicators failed to load: %1$s</string>
+
+    <string name="switch_block_ads">Block ad-delivery domains</string>
+    <string name="switch_alert_tracking">Alert on tracking domains</string>
+    <string name="switch_block_adint">Block ADINT vendors</string>
+
+    <string name="log_empty">No events yet. Start protection and use the device normally.</string>
+    <string name="app_finding_title">%1$s — risk %2$d</string>
+    <string name="vpn_denied">Protection requires VPN consent to inspect DNS.</string>
+
+    <string name="disclaimer">Detection only. This app observes and blocks known infrastructure; it cannot remove an implant already present. If a full chain is observed, treat the device as compromised and seek expert help.</string>
+
+    <!-- VPN screen -->
+    <string name="vpn_title">VPN</string>
+    <string name="vpn_one_at_a_time">Android permits one active VPN per device. The DNS scanner and a WireGuard tunnel cannot run at the same time — this screen switches between them explicitly.</string>
+    <string name="vpn_section_mode">Current mode</string>
+    <string name="vpn_section_profiles">WireGuard profiles</string>
+    <string name="vpn_mode_scanner">Mode: DNS scanner (AdFection monitoring active)</string>
+    <string name="vpn_mode_tunnel">Mode: WireGuard tunnel — %1$s</string>
+    <string name="vpn_tunnel_warning">DNS monitoring is paused while the tunnel is up. Your traffic is encrypted to the provider, but this app no longer sees your lookups, so AdFection indicators cannot be matched.</string>
+    <string name="vpn_connect">Connect</string>
+    <string name="vpn_disconnect">Disconnect</string>
+    <string name="vpn_delete">Delete</string>
+    <string name="vpn_switch_to_scanner">Stop tunnel, resume DNS scanning</string>
+    <string name="vpn_import_file">Import .conf</string>
+    <string name="vpn_import_folder">Import folder</string>
+    <string name="vpn_paste">Paste config</string>
+    <string name="vpn_show_template">Show template</string>
+    <string name="vpn_no_profiles">No profiles yet. Import a WireGuard .conf from your provider, or paste one in.</string>
+    <string name="vpn_no_profile_to_connect">Import a WireGuard profile first.</string>
+    <string name="vpn_profile_meta">endpoint: %1$s\ndns: %2$s</string>
+    <string name="vpn_profile_invalid">Not usable — %1$s</string>
+    <string name="vpn_delete_title">Delete \'%1$s\'?</string>
+    <string name="vpn_delete_message">The profile file will be removed from this app. Your provider account is unaffected.</string>
+    <string name="vpn_paste_title">Paste WireGuard config</string>
+    <string name="vpn_paste_hint">[Interface]\nPrivateKey = …\n[Peer]\n…</string>
+    <string name="vpn_name_hint">Profile name</string>
+    <string name="vpn_template_title">WireGuard config template</string>
+    <string name="vpn_needs_consent">Grant VPN permission, then connect again.</string>
+    <string name="open_vpn_screen">VPN &amp; WireGuard</string>
+
+    <!-- Cloudflare WARP (in-app account registration, the wgcf flow) -->
+    <string name="warp_section">Cloudflare WARP (free, generated on this device)</string>
+    <string name="warp_note">Registers a WARP account directly from the app — the same two API calls wgcf makes — and stores the profile in app-private storage, so no .conf is ever copied around. Requires no account, no email and no payment. Caveat: Cloudflare refuses WireGuard handshakes in some regions as abuse prevention, and newly provisioned accounts are being issued the MASQUE transport, which WireGuard cannot use. Run "Check WARP status" while connected to find out which you are getting.</string>
+    <string name="warp_state_none">No WARP account on this device.</string>
+    <string name="warp_state_registered">WARP account %1$s · %2$s%3$s</string>
+    <string name="warp_register">Register WARP account</string>
+    <string name="warp_regenerate">Regenerate profile (reuse account)</string>
+    <string name="warp_check">Check WARP status</string>
+    <string name="warp_check_needs_tunnel">Connect the tunnel first</string>
+    <string name="warp_forget">Forget WARP account</string>
+    <string name="warp_busy">Working…</string>
+    <string name="warp_plus_active"> · WARP+ subscribed</string>
+    <string name="warp_probe_now_direct"> — measured before the tunnel dropped; your traffic is now going direct.</string>
+    <string name="warp_forget_message">The stored account and its credentials are deleted from this app. The WireGuard profile stays on disk until you delete it from the list, and your Cloudflare account itself is unaffected.</string>
+
+    <!-- Provider guidance -->
+    <string name="providers_title">Getting a VPN</string>
+    <string name="providers_intro">Only services that publish WireGuard configuration files are listed, because those are the ones this app can import. Each entry states what the operator can see about you.</string>
+    <string name="provider_warning_title">Read this before installing anything</string>
+    <string name="provider_operator_sees">Operator sees: %1$s</string>
+    <string name="provider_copy_link">Save this guidance</string>
+    <string name="provider_saved">Saved to %1$s</string>
+    <string name="provider_save_failed">Could not save the guidance file.</string>
+    <string name="providers_back_to_vpn">Back to VPN</string>
+    <string name="open_providers">I don\'t have a VPN — what can I use?</string>
+
+</resources>

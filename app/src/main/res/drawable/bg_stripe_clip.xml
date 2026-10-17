@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Left edge of a log row: rounded on the leading corners so it follows the card's shape. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/severity_low" />
+    <corners
+        android:topLeftRadius="14dp"
+        android:bottomLeftRadius="14dp" />
+</shape>

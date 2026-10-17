@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Filled warning banner. Kept filled (rather than outlined) because its content is a direct
+     instruction the user must read before installing a VPN. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/severity_high" />
+    <corners android:radius="16dp" />
+</shape>

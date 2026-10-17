@@ -1,0 +1,112 @@
+# AdFection scanner — indicator set
+# Format: type<TAB>value<TAB>category<TAB>severity<TAB>source<TAB>note
+#   type     : DOMAIN | HOST | IP | CIDR | SHA256   (DOMAIN covers the apex and all sub-domains)
+#   category : AD_DELIVERY | TRACKING | CANDIRU_VALIDATOR | CANDIRU_C2 | CANDIRU_IMPLANT | ADINT | CONTEXT
+#   severity : CRITICAL | HIGH | MEDIUM | LOW | INFO
+#
+# Sources
+#   CL195   : Citizen Lab report 195, "Exposing AdFection", 15 Oct 2026
+#             https://citizenlab.ca/research/how-discover-tech-turned-targeted-ads-into-a-pipeline-for-spyware/
+#   CONF    : Confiant, "ADINT: Weaponized Ad Tech for Zero-Click Spyware and Mass Identity Vacuuming", 15 Oct 2026
+#             https://blog.confiant.com/p/adint-weaponized-ad-tech-for-zero-click-spyware-and-mass-identity-vacuuming
+#   VT      : VirusTotal sample/reference cited in CL195
+#   ESET21  : ESET, "Strategic web compromises in the Middle East with a pinch of Candiru", 2021
+#
+# NOTE ON COVERAGE: this is the published, public indicator set only. It is a starting point for
+# triage, not a complete detection capability — the attacker rotates CloudFront hosts and NOAS
+# sub-domains frequently, and Citizen Lab explicitly withheld the exploit itself.
+#
+# Compiled: 2026-10-17
+
+# ---------------------------------------------------------------------------
+# Discover-Tech ad delivery / NOAS ("getAd") infrastructure — CL195 §3, §5, §6
+# ---------------------------------------------------------------------------
+DOMAIN	mtrtb.com	AD_DELIVERY	CRITICAL	CL195	Discover-Tech ad serving domain; hosts NOAS getAd servers
+DOMAIN	mydsp.io	AD_DELIVERY	CRITICAL	CL195	Discover-Tech demand-side platform
+DOMAIN	discover-tech.io	AD_DELIVERY	HIGH	CL195	Discover-Tech corporate site
+DOMAIN	controlium.net	AD_DELIVERY	CRITICAL	CL195	Controlium targeting console (spyware tasking UI)
+DOMAIN	powerium.net	AD_DELIVERY	CRITICAL	CL195	Controlium instance; host of noas/qa-noas getAd
+DOMAIN	myweb3id.io	TRACKING	HIGH	CL195	ID-syncing with Yandex; events.myweb3id.io getAd endpoint
+DOMAIN	platc-tester.com	AD_DELIVERY	HIGH	CL195	"Mini Platform C" / Banner Tester app host
+DOMAIN	myipinfo.io	AD_DELIVERY	HIGH	CL195	Discover-Tech property; hosts the Ad URL OpSec decoder
+DOMAIN	akedo.gg	AD_DELIVERY	MEDIUM	CL195	Akedo gaming platform; shares management/shareholders with Discover-Tech
+DOMAIN	volasim.com	AD_DELIVERY	MEDIUM	CL195	Volasim Ltd; hosted Controlium instances (adv45/adv50)
+DOMAIN	adtimizer.co	AD_DELIVERY	HIGH	CL195	Adtimizer Ltd; dtech./noas./myinfoback./tekma. sub-domains served Discover-Tech tags
+HOST	events.platc-tester.com	AD_DELIVERY	CRITICAL	CL195	cplatform/getAd NOAS endpoint
+HOST	events-ui.discover-tech.io	AD_DELIVERY	HIGH	CL195	Mini Platform C tasking UI
+HOST	events-ui.myweb3id.io	AD_DELIVERY	HIGH	CL195	Mini Platform C tasking UI
+HOST	bt.myweb3id.io	AD_DELIVERY	HIGH	CL195	Banner Tester tag generator
+HOST	bt.platc-tester.com	AD_DELIVERY	HIGH	CL195	Banner Tester tag generator
+HOST	logger.powerium.net	AD_DELIVERY	HIGH	CL195	Controlium event logger endpoint
+HOST	logger.controlium.net	AD_DELIVERY	HIGH	CL195	Controlium event logger endpoint
+HOST	imp.powerium.net	TRACKING	MEDIUM	CL195	Impression tracking endpoint
+HOST	admin.mtrtb.com	AD_DELIVERY	HIGH	CL195	MyDSP admin interface (ad vendor integration list)
+
+# ---------------------------------------------------------------------------
+# Tracking / cookie-matching / identity-graph infrastructure — CL195 §6, CONF
+# ---------------------------------------------------------------------------
+DOMAIN	tracookiepixel.xyz	TRACKING	HIGH	CL195	Cookie matching w/ Beeswax; suspended 2026-10-01
+DOMAIN	cookie-sync.xyz	TRACKING	MEDIUM	CL195	Cookie matching domain
+DOMAIN	ads-monitor.xyz	TRACKING	MEDIUM	CONF	Operator & delivery domain
+HOST	js.tracookiepixel.xyz	TRACKING	HIGH	CL195	Tracking pixel script host
+HOST	js.cookie-sync.xyz	TRACKING	MEDIUM	CL195	Legacy tracking pixel host
+
+# ---------------------------------------------------------------------------
+# Candiru delivery layer (CloudFront) — CONF
+# The attacker rotates these; presence of a match is strong evidence, absence is not evidence of safety.
+# ---------------------------------------------------------------------------
+HOST	d23625plpxg1yn.cloudfront.net	CANDIRU_VALIDATOR	CRITICAL	CONF	?impid= payload delivery host
+HOST	d39619tdxn6mhj.cloudfront.net	CANDIRU_VALIDATOR	CRITICAL	CONF	?impid= payload delivery host
+HOST	d2f4zpg1mgzwov.cloudfront.net	CANDIRU_VALIDATOR	CRITICAL	CONF	?impid= payload delivery host
+HOST	d1fzw0miu1r9rc.cloudfront.net	CANDIRU_VALIDATOR	CRITICAL	CONF	?impid= payload delivery host
+HOST	d19oo8r6k9oumb.cloudfront.net	CANDIRU_VALIDATOR	CRITICAL	CONF	?impid= payload delivery host
+HOST	d147nolwbekx2b.cloudfront.net	CANDIRU_VALIDATOR	CRITICAL	CONF	?impid= payload delivery host
+HOST	dcv2rnj2ograe.cloudfront.net	CANDIRU_VALIDATOR	CRITICAL	CONF	?impid= payload delivery host
+HOST	d1x4e580sn23dn.cloudfront.net	CANDIRU_VALIDATOR	CRITICAL	CONF	?impid= payload delivery host
+HOST	d2epnp0vokbtl7.cloudfront.net	CANDIRU_VALIDATOR	CRITICAL	CONF	?qq= payload delivery host
+HOST	d1fcoizt7mje85.cloudfront.net	CANDIRU_VALIDATOR	CRITICAL	CL195	?qq= payload delivery host (retired Dec 2025)
+HOST	d8lmy5wyiokrq.cloudfront.net	TRACKING	MEDIUM	CONF	1x1 tracking pixel
+HOST	pagead.trustlayersdk.com	CANDIRU_C2	CRITICAL	CONF	SDK command-and-control endpoint (ECDH + polling)
+
+# ---------------------------------------------------------------------------
+# Candiru profiling ("validator") servers — CL195 §2, §4
+# Fingerprint V1 banner; 305 domains/319 IPs found in scanning data, these are the publicly named ones.
+# ---------------------------------------------------------------------------
+DOMAIN	keyadapter.com	CANDIRU_VALIDATOR	CRITICAL	CL195	Validator server (fingerprint V1)
+DOMAIN	sharethere.net	CANDIRU_VALIDATOR	CRITICAL	CL195	Validator server (fingerprint V1)
+DOMAIN	sincereaccertain.com	CANDIRU_VALIDATOR	CRITICAL	CL195	Profiling target; ?qq= links; OpSec V2 format
+DOMAIN	outdooutcome.com	CANDIRU_VALIDATOR	CRITICAL	CL195	Registered alongside suggestutterly; rockhoster SOA
+DOMAIN	suggestutterly.com	CANDIRU_VALIDATOR	CRITICAL	CL195	Fingerprint C1 match
+
+# ---------------------------------------------------------------------------
+# Candiru command & control — CL195 §2 (Fingerprint C1), VT
+# ---------------------------------------------------------------------------
+DOMAIN	fearevolve.com	CANDIRU_C2	CRITICAL	CL195	Hardcoded in recovered Windows DLL
+DOMAIN	jobmarcher.com	CANDIRU_C2	CRITICAL	CL195	Hardcoded in recovered Windows DLL
+DOMAIN	plasticbells.com	CANDIRU_C2	CRITICAL	CL195	Fingerprint C1
+DOMAIN	insightenterprisells.com	CANDIRU_C2	CRITICAL	CL195	Fingerprint C1
+
+# ---------------------------------------------------------------------------
+# Recovered implant — CL195 §2
+# ---------------------------------------------------------------------------
+SHA256	255869de85e2a171993fc5eb8a556d873a1b8966e040f6f55926f2fa2d595cc8	CANDIRU_IMPLANT	CRITICAL	CL195	Windows DLL w/ COM hijack persistence
+
+# ---------------------------------------------------------------------------
+# Mercenary ADINT vendors linked to the same ad pipeline — CL195 §4, §7, §8
+# ---------------------------------------------------------------------------
+DOMAIN	intelos.io	ADINT	HIGH	CL195	ADINT vendor; shared Wix account with Discover-Tech
+DOMAIN	globaldatapoints.com	ADINT	HIGH	CL195	Intelos-linked; AD/HOC product login page
+DOMAIN	tekma-dmp.ai	ADINT	HIGH	CL195	Tekma DMP; shared Wix account
+DOMAIN	tekma.io	ADINT	MEDIUM	CL195	Tekma corporate site
+DOMAIN	pickarest.com	ADINT	HIGH	CL195	Bindecy cupid-ca certificate
+DOMAIN	infoanalytics.live	ADINT	HIGH	CL195	Bindecy cupid-ca certificate
+DOMAIN	beachvibesnow.com	ADINT	HIGH	CL195	Bindecy cupid-ca certificate
+DOMAIN	enjoymultiplecats.com	ADINT	HIGH	CL195	Bindecy cupid-ca certificate
+DOMAIN	icecreamtester.com	ADINT	HIGH	CL195	Bindecy cupid-ca certificate
+HOST	bd-mainserver.herokuapp.com	ADINT	HIGH	CL195	Bindecy "bd" main server
+
+# ---------------------------------------------------------------------------
+# Context-only: legitimate vendors abused or impersonated. Logged, never blocked,
+# because blocking them would break unrelated (legitimate) advertising and infrastructure.
+# ---------------------------------------------------------------------------
+DOMAIN	bidr.io	CONTEXT	INFO	CL195	Beeswax tracking/cookie-sync domain (legitimate vendor)

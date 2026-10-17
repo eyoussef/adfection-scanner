@@ -1,0 +1,57 @@
+{
+  "id": "REDACTED-DEVICE-ID",
+  "type": "a",
+  "model": "PC",
+  "name": "",
+  "key": "REDACTED-PUBLIC-KEY",
+  "key_type": "curve25519",
+  "tunnel_type": "wireguard",
+  "token": "REDACTED-TOKEN",
+  "warp_enabled": false,
+  "waitlist_enabled": false,
+  "enabled": true,
+  "account": {
+    "id": "REDACTED-ACCOUNT-ID",
+    "account_type": "free",
+    "created": "2026-10-17T13:06:23.302466052Z",
+    "updated": "2026-10-17T13:06:23.302466052Z",
+    "premium_data": 0,
+    "quota": 0,
+    "usage": 0,
+    "warp_plus": true,
+    "referral_count": 0,
+    "referral_renewal_countdown": 0,
+    "role": "child",
+    "license": "XXXXXXX-XXXXXXX-XXXXXXX",
+    "ttl": "2027-01-15T13:06:23.302463812Z"
+  },
+  "config": {
+    "client_id": "y91J",
+    "peers": [
+      {
+        "public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+        "endpoint": {
+          "v4": "162.159.192.10:0",
+          "v6": "[2606:4700:d0::a29f:c00a]:0",
+          "host": "engage.cloudflareclient.com:2408",
+          "ports": [2408, 500, 1701, 4500]
+        }
+      }
+    ],
+    "interface": {
+      "addresses": {
+        "v4": "172.16.0.2",
+        "v6": "2606:4700:110:8afb:ab2a:7a48:8d2a:d650"
+      }
+    },
+    "services": {
+      "http_proxy": "172.16.0.1:2480"
+    }
+  },
+  "policy": {
+    "always_include": [{"ip": "162.159.197.4"}, {"ip": "2606:4700:102::4"}],
+    "always_exclude": [{"ip": "162.159.197.3"}, {"ip": "2606:4700:102::3"}],
+    "tunnel_protocol": "masque",
+    "post_quantum": "enabled_with_downgrades"
+  }
+}

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="40dp">
+
+        <TextView
+            style="@style/Text.ScreenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vpn_title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            style="@style/Text.BodyMuted"
+            android:text="@string/vpn_one_at_a_time" />
+
+        <TextView style="@style/SectionHeader" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/vpn_section_mode" />
+
+        <LinearLayout style="@style/CardBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/mode_dot"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/bg_status_dot_idle" />
+
+                <TextView
+                    android:id="@+id/text_mode"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/on_surface"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_mode_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/vpn_tunnel_warning"
+                style="@style/Text.BodyMuted"
+                android:textColor="@color/severity_medium"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/text_vpn_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                style="@style/Text.BodyMuted"
+                android:textColor="@color/severity_critical"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/button_connect"
+                style="@style/Button.Adfection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/vpn_connect" />
+
+            <Button
+                android:id="@+id/button_use_scanner"
+                style="@style/Button.Adfection.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:enabled="false"
+                android:text="@string/vpn_switch_to_scanner" />
+        </LinearLayout>
+
+        <TextView style="@style/SectionHeader" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/warp_section" />
+
+        <LinearLayout style="@style/CardBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_warp_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/on_surface"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_warp_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/warp_note"
+                android:textColor="@color/on_surface_muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_warp_probe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/on_surface"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/button_warp_register"
+                style="@style/Button.Adfection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/warp_register" />
+
+            <Button
+                android:id="@+id/button_warp_regenerate"
+                style="@style/Button.Adfection.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/warp_regenerate" />
+
+            <Button
+                android:id="@+id/button_warp_probe"
+                style="@style/Button.Adfection.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/warp_check" />
+
+            <Button
+                android:id="@+id/button_warp_forget"
+                style="@style/Button.Adfection.Destructive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/warp_forget" />
+        </LinearLayout>
+
+        <TextView style="@style/SectionHeader" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/vpn_section_profiles" />
+
+        <Button
+            android:id="@+id/button_open_providers"
+            style="@style/Button.Adfection.Tonal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/open_providers" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_import_conf"
+                style="@style/Button.Adfection.Tonal"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/vpn_import_file" />
+
+            <Button
+                android:id="@+id/button_import_folder"
+                style="@style/Button.Adfection.Tonal"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/vpn_import_folder" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_paste_conf"
+                style="@style/Button.Adfection.Tonal"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/vpn_paste" />
+
+            <Button
+                android:id="@+id/button_template"
+                style="@style/Button.Adfection.Tonal"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/vpn_show_template" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_no_profiles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/vpn_no_profiles"
+            android:textColor="@color/on_surface_muted"
+            android:textSize="13sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/profile_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>

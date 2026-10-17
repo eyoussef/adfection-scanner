@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AdfectionScanner" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/surface</item>
+        <item name="android:colorBackground">@color/surface</item>
+        <item name="android:textColorPrimary">@color/on_surface</item>
+        <item name="android:textColorSecondary">@color/on_surface_muted</item>
+        <item name="android:statusBarColor">@color/surface</item>
+        <item name="android:navigationBarColor">@color/surface</item>
+        <item name="colorAccent">@color/accent</item>
+
+        <!-- Themed widgets. Without these the app fell back to the platform's grey Material buttons,
+             which is most of why it read as a generic tool rather than a designed app. -->
+        <item name="android:buttonStyle">@style/Button.Adfection</item>
+        <item name="android:borderlessButtonStyle">@style/Button.Adfection.Quiet</item>
+        <item name="android:switchStyle">@style/Switch.Adfection</item>
+    </style>
+
+    <!-- ============================ Typography ============================ -->
+
+    <!-- Screen title: large, tight, iOS-style. -->
+    <style name="Text.ScreenTitle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:lineSpacingMultiplier">1.05</item>
+    </style>
+
+    <!-- Card/section body copy. -->
+    <style name="Text.Body" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.25</item>
+    </style>
+
+    <style name="Text.BodyMuted" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/on_surface_muted</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:lineSpacingMultiplier">1.25</item>
+    </style>
+
+    <!-- Emphasised row title inside a card. -->
+    <style name="Text.RowTitle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+
+    <!-- Small uppercase label above a section. -->
+    <style name="SectionHeader">
+        <item name="android:textColor">@color/on_surface_muted</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginStart">4dp</item>
+    </style>
+
+    <!-- ============================ Surfaces ============================ -->
+
+    <!--
+      The grouped-list card. This is the single most important change from the previous design: a
+      rounded, hairline-outlined surface instead of a flat rectangle, which is what makes a list read
+      as a native iOS-style group rather than a table of boxes.
+    -->
+    <style name="CardBlock">
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!-- A list row inside a card; the divider is drawn per-row so the group looks continuous. -->
+    <style name="CardRow">
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+    </style>
+
+    <!-- ============================ Controls ============================ -->
+
+    <style name="Button.Adfection" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/bg_button_primary</item>
+        <!-- Dark ink on the bright accent fill: 7.77:1. White on this purple measured 4.02:1, which
+             fails WCAG AA for button text. -->
+        <item name="android:textColor">@color/ink_on_accent</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingStart">18dp</item>
+        <item name="android:paddingEnd">18dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Secondary action: quiet fill, accent text. Used for "Connect", "Export", the VPN entry points. -->
+    <style name="Button.Adfection.Tonal" parent="Button.Adfection">
+        <item name="android:background">@drawable/bg_button_tonal</item>
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <!-- Destructive: used for Delete and Stop. -->
+    <style name="Button.Adfection.Destructive" parent="Button.Adfection">
+        <item name="android:background">@drawable/bg_button_destructive</item>
+        <item name="android:textColor">@color/severity_critical</item>
+    </style>
+
+    <!-- Quiet text button for the least important action on a screen. -->
+    <style name="Button.Adfection.Quiet" parent="Button.Adfection">
+        <item name="android:background">@drawable/bg_button_quiet</item>
+        <item name="android:textColor">@color/on_surface_muted</item>
+    </style>
+
+    <style name="Switch.Adfection" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:track">@drawable/bg_switch_track</item>
+        <item name="android:thumb">@drawable/bg_switch_thumb</item>
+    </style>
+</resources>

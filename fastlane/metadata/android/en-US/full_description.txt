@@ -1,0 +1,40 @@
+AdFection Scanner is an on-device detector for the advertising-delivered zero-click spyware chain documented by Citizen Lab as **AdFection** (Report 195, October 2026), and for the surrounding ad-intelligence (ADINT) infrastructure it depends on.
+
+It is a defensive triage tool for journalists, researchers and at-risk individuals — the population that campaign targeted.
+
+## What it watches
+
+The attack sequence Citizen Lab reconstructed from a newsroom's network logs has three observable stages:
+
+```
+ad impression  →  spyware validator  →  command-and-control
+```
+
+Any single match is weak evidence. A domain can be shared, an address can be rotated, and a device may simply have been profiled and never infected. What is distinctive is the **ordered sequence on one device inside a short window** — and that is what this app reports, stage by stage.
+
+## What it does
+
+* **DNS inspection** — every system lookup is matched against a bundled indicator set and blocked or logged. Only the two virtual DNS addresses are routed into the tunnel: there is no default route, so ordinary traffic never passes through the app and there is no throughput cost.
+* **Threat alerts** — a finding at HIGH or above raises a notification naming the host, so a detection is seen without opening the app. Routine ad-delivery and tracking traffic is blocked and logged but never notified, because alerts you learn to dismiss are worse than none.
+* **Kill-chain detection** — reports 1/3, 2/3 and a single critical alert at 3/3.
+* **Device posture audit** — advertising ID status, Private DNS bypass, accessibility and overlay abuse, developer options, battery-optimisation gaps, reboot survival, and whether another VPN is holding the single VPN slot (named, so the fix is obvious).
+* **Application audit** — permission combinations, install source, accessibility abuse and known malicious package, certificate and APK-hash indicators.
+* **Shareable report** — a plain-text timeline with matched hosts and provenance that can be handed to a forensic responder. Device identifiers are deliberately excluded.
+
+## VPN and WireGuard
+
+Android permits one active VPN per user. This app is therefore explicit about a real trade-off rather than hiding it: you can run the **DNS scanner**, or a **WireGuard tunnel**, and the screen states plainly what each one gives up.
+
+Included free of charge: an in-app **Cloudflare WARP** account registration — the same two API calls the open-source `wgcf` tool performs — so there is a working tunnel with no file to copy, no account, no email and no payment. WireGuard profiles from any provider can also be imported.
+
+## Limits, stated plainly
+
+* Detection, not remediation. It cannot remove an implant already on the device.
+* DNS only. DNS-over-HTTPS/TLS to a hardcoded resolver, and connections to IP literals, are invisible to it.
+* The indicator set is a dated snapshot. The app shows its compile date and labels it stale after 30 days, because a list that stopped matching is worse than no list: a clean log would otherwise read as proof of safety.
+* A full chain is evidence that this device contacted infrastructure linked to the campaign. It is not proof of infection — corroborate before acting.
+* No accounts, no analytics, no telemetry. Everything is processed on the device and nothing is uploaded.
+
+## Open source
+
+Kotlin, no obfuscation, so the detection logic is auditable. Detection rules are data, not code.

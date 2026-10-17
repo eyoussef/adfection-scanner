@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Primary action: bright accent fill with dark ink (7.77:1 contrast).
+
+  The disabled state drops to a dim purple; it is paired with the platform's own enabled=false
+  handling so a disabled button is still distinguishable without relying on colour alone.
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#3312101F">
+    <item>
+        <selector>
+            <item android:state_enabled="false">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/accent_dim" />
+                    <corners android:radius="14dp" />
+                </shape>
+            </item>
+            <item android:state_pressed="true">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/accent" />
+                    <corners android:radius="14dp" />
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/accent_fill" />
+                    <corners android:radius="14dp" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+</ripple>
