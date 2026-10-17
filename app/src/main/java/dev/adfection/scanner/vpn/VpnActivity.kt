@@ -171,7 +171,7 @@ class VpnActivity : AppCompatActivity() {
             else -> getString(
                 R.string.warp_state_registered,
                 account.shortId(),
-                account.accountType ?: "unknown",
+                account.accountType ?: getString(R.string.unknown),
                 plusSuffix(account),
             )
         }

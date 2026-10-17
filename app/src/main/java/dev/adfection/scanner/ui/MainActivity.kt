@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Lifecycle
@@ -99,10 +100,13 @@ class MainActivity : AppCompatActivity() {
                         startActivity(Intent.createChooser(intent, getString(R.string.button_export_report)))
                     }
                     .onFailure { error ->
-                        toast(getString(R.string.export_failed, error.message ?: "unknown"))
+                        toast(getString(R.string.export_failed, error.message ?: getString(R.string.unknown)))
                     }
             }
         }
+
+        binding.buttonLanguage.setOnClickListener { showLanguagePicker() }
+        binding.rowLanguage.setOnClickListener { showLanguagePicker() }
 
         binding.switchBlockAds.setOnCheckedChangeListener { _, checked -> viewModel.setBlockAds(checked) }
         binding.switchAlertTracking.setOnCheckedChangeListener { _, checked -> viewModel.setAlertTracking(checked) }
@@ -232,6 +236,45 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        refreshLanguageLabels()
         viewModel.refreshLog()
+    }
+
+    /**
+     * Show the active language in both affordances.
+     *
+     * Called on resume as well as on change: the per-app locale can also be changed from the system's
+     * own "App languages" screen on API 33+, so this activity has to re-read it rather than assume its
+     * own last action was the last word.
+     */
+    private fun refreshLanguageLabels() {
+        binding.textLanguageCurrent.text = AppLanguage.currentLabel(this)
+        binding.buttonLanguage.text = AppLanguage.currentChipLabel()
+    }
+
+    /** Present the shipped languages. Selection applies immediately, without restarting the app. */
+    private fun showLanguagePicker() {
+        val tag = AppLanguage.currentTag()
+        val labels = AppLanguage.options.map { option ->
+            val active = if (option.tag.isEmpty()) tag.isBlank() else {
+                tag.substringBefore('-').substringBefore('_')
+                    .equals(option.tag, ignoreCase = true)
+            }
+            val label = AppLanguage.displayLabel(this, option)
+            if (active) "\u2713  $label" else "      $label"
+        }.toTypedArray()
+
+        AlertDialog.Builder(this)
+            .setTitle(R.string.language_picker_title)
+            .setItems(labels) { _, which ->
+                AppLanguage.apply(AppLanguage.options[which].tag)
+                // Recreate so every string on screen is re-resolved for the new locale. AppCompat
+                // would also apply it on the next configuration change, but doing it here means the
+                // change is visible immediately rather than after navigating away and back.
+                recreate()
+            }
+            .setMessage(R.string.language_note)
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 }

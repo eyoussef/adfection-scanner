@@ -44,6 +44,23 @@
             android:label="@string/vpn_title"
             android:parentActivityName=".ui.MainActivity" />
 
+        <!--
+          Persists the per-app language choice below API 33.
+
+          AppCompat only delegates storage of setApplicationLocales() to the platform on API 33+; on
+          older versions it needs this service present to survive the process being killed. Without
+          it, a language picked in-app silently reverts to the system language on the next cold
+          start — on exactly the older devices least likely to be noticed during testing.
+        -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.reports"

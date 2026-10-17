@@ -379,6 +379,87 @@ Expected: step 2 produces no address (NXDOMAIN) and a `DNS_BLOCKED` row; step 3 
 A full-chain alert fires only if the three stages occur in order — it cannot be produced by a single
 `nslookup`, by design.
 
+
+## Languages
+
+The app ships in seven languages. Every string is translated — there is no partial locale that
+silently falls back to English, and a test enforces that (`ProviderGuidanceTest`):
+
+| Locale | Language | Notes |
+|---|---|---|
+| `values/` | English | Source of truth |
+| `values-fr/` | French | |
+| `values-it/` | Italian | |
+| `values-de/` | German | |
+| `values-es/` | Spanish | |
+| `values-pt/` | Portuguese | Covers `pt-BR` and `pt-PT` |
+| `values-ar/` | Arabic | RTL, handled by `android:supportsRtl` and start/end padding |
+
+Translation policy:
+
+- **Product and protocol names stay untranslated** — WireGuard, WARP, Cloudflare, VPN, DNS, ADINT,
+  `.conf`. A reader meets those words again in the app and in provider documentation.
+- **Settings paths are translated**, because they must match what the device actually shows in that
+  language.
+- **Format arguments are preserved exactly.** A dropped `%1$s` is a runtime crash, not a typo, so a
+  test compares argument sets between English and every locale.
+- **Arabic does not get embedded RTL marks.** The layout is RTL-aware; inserting directional control
+  characters in the strings would fight it.
+
+### Changing the language in the app
+
+There is a **Language** card on the main screen, and a compact chip in the title row showing the
+active language code. Selecting a language applies it to this app only, immediately and without a
+restart — the platform's own per-app language setting (`AppCompatDelegate.setApplicationLocales`).
+On Android 13+ the system's "App languages" screen agrees with the in-app choice.
+
+**System default** is the first option and the default: the app follows whatever the phone is set to,
+so a device already in French shows French with nothing to configure.
+
+Two details that only matter below Android 13:
+
+- AppCompat persists the choice through `AppLocalesMetadataHolderService` with
+  `autoStoreLocales=true`. Without that declaration the selection is **lost on the next cold start**
+  on API 29–32 — a bug that never reproduces on a modern test device, which is why it is declared
+  rather than assumed.
+- The note under the picker ("only this app changes") is deliberate. Without it a user may reasonably
+  fear the picker changes their whole phone, and the whole point of an in-app picker is to avoid
+  changing the phone.
+
+Adding a language: copy `values/strings.xml`, translate the values, keep the keys and format
+arguments untouched, and add an entry to `AppLanguage.options`. The locale tests fail if a key is
+missing, unknown, or left identical to English, and `AppLanguageTest` fails if a shipped translation
+has no picker entry — a translation nobody can reach is the same as no translation.
+
+## Signing
+
+Release builds are signed from `keystore.properties`, which is **gitignored** and never committed.
+
+```properties
+# keystore.properties (not in the repo)
+storeFile=/path/to/adfection-release.jks
+storePassword=…
+keyAlias=adfection
+keyPassword=…
+```
+
+Without that file the release build is simply unsigned, so a fresh clone and CI can still run
+`assembleDebug` and the test suite. The keystore is a 4096-bit RSA key valid for 10,000 days,
+generated with a 24-character random password.
+
+> **Back up the keystore and its password separately from this machine.** Losing them means the
+> published app can never be updated again: Android requires every update to be signed with the same
+> key.
+
+The release APK is signed with APK Signature Scheme **v2**, which covers every API level this app
+supports (`minSdk 29`).
+
+### A note on `enableV3Signing`
+
+Setting `signingConfig.enableV3Signing = true` in an attempt to "add" v3 **removes v2** — `apksigner`
+confirmed v2 went from `true` to `false`. The default already emits what is needed, so the flags are
+left alone.
+
 ## Store listing
 
 Listing assets live in the standard `fastlane` layout, so F-Droid and Komoi/IzzyOnDroid can read them

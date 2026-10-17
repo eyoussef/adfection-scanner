@@ -5,6 +5,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.wireguard.android.backend.Tunnel
+import dev.adfection.scanner.R
 import dev.adfection.scanner.net.AdfectionVpnService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -39,6 +40,11 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _warp = MutableStateFlow(WarpUiState())
     val warp: StateFlow<WarpUiState> = _warp.asStateFlow()
+
+
+    /** Resolve a user-facing message. Messages are resources so they follow the device locale. */
+    private fun msg(@androidx.annotation.StringRes id: Int, vararg args: Any): String =
+        getApplication<Application>().getString(id, *args)
 
     fun consumeMessage() { _message.value = null }
 
@@ -76,7 +82,7 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
             if (error != null) {
                 _message.value = error
             } else {
-                _message.value = "Profile '$name' saved."
+                _message.value = msg(R.string.msg_profile_saved, name)
                 refreshProfiles()
             }
         }
@@ -92,7 +98,7 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
                 }.getOrNull()
             }
             if (text.isNullOrBlank()) {
-                _message.value = "Could not read the selected file."
+                _message.value = msg(R.string.msg_file_unreadable)
             } else {
                 importProfile(name, text)
             }
@@ -103,7 +109,7 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val active = _wireGuard.value.activeProfile
             if (active == name) {
-                _message.value = "Disconnect '$name' before deleting it."
+                _message.value = msg(R.string.msg_disconnect_before_delete, name)
                 return@launch
             }
             withContext(Dispatchers.IO) { profiles.delete(name) }
@@ -121,7 +127,7 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val raw = withContext(Dispatchers.IO) { profiles.read(name) }
             if (raw == null) {
-                _message.value = "Profile '$name' could not be read."
+                _message.value = msg(R.string.msg_profile_unreadable, name)
                 return@launch
             }
 
@@ -133,8 +139,7 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
             if (error != null) {
                 _message.value = error
             } else {
-                _message.value = "Connected to '$name'. DNS monitoring is paused while the " +
-                    "tunnel is up — Android allows only one VPN at a time."
+                _message.value = msg(R.string.msg_tunnel_connected, name)
             }
             refreshState()
         }
@@ -144,7 +149,7 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val error = engine.disconnect()
             if (error != null) _message.value = error
-            _message.value = "Tunnel closed. Start protection to resume DNS monitoring."
+            _message.value = msg(R.string.msg_tunnel_closed)
             refreshState()
         }
     }
@@ -155,7 +160,7 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
             engine.disconnect()
             delay(HANDOFF_DELAY_MS)
             AdfectionVpnService.start(getApplication())
-            _message.value = "Scanner active. DNS monitoring resumed."
+            _message.value = msg(R.string.msg_scanner_resumed)
             refreshState()
         }
     }
@@ -211,9 +216,9 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
                 count
             }
             _message.value = if (imported > 0) {
-                "Imported $imported profile(s)."
+                msg(R.string.msg_profiles_imported, imported)
             } else {
-                "No .conf files found in the selected folder."
+                msg(R.string.msg_no_conf_found)
             }
             refreshProfiles()
         }
@@ -257,15 +262,15 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
                         if (saved != null) {
                             // The account is stored but the profile is not; keeping the account
                             // means "Regenerate" can recover without burning another device slot.
-                            _message.value = "WARP account created, but the profile was rejected: $saved"
+                            _message.value = msg(R.string.msg_warp_profile_rejected, saved)
                         } else {
                             val license = registration.account.licenseKey?.let { " (license $it)" }.orEmpty()
-                            _message.value = "WARP account created$license. Profile '$WARP_PROFILE_NAME' is ready to connect."
+                            _message.value = msg(R.string.msg_warp_created, license, WARP_PROFILE_NAME)
                         }
                     }
                 }
                 .onFailure { error ->
-                    _message.value = error.message ?: "WARP registration failed."
+                    _message.value = error.message ?: msg(R.string.msg_warp_register_failed)
                 }
 
             _warp.value = _warp.value.copy(
@@ -281,7 +286,7 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val account = _warp.value.account
             if (account == null) {
-                _message.value = "Register a WARP account first."
+                _message.value = msg(R.string.msg_warp_register_first)
                 return@launch
             }
             if (_warp.value.busy) return@launch
@@ -291,10 +296,10 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
             result
                 .onSuccess { profile ->
                     val saved = withContext(Dispatchers.IO) { profiles.save(WARP_PROFILE_NAME, profile) }
-                    _message.value = saved ?: "WARP profile regenerated."
+                    _message.value = saved ?: msg(R.string.msg_warp_regenerated)
                 }
                 .onFailure { error ->
-                    _message.value = error.message ?: "Could not regenerate the WARP profile."
+                    _message.value = error.message ?: msg(R.string.msg_warp_regenerate_failed)
                 }
 
             _warp.value = _warp.value.copy(busy = false)
@@ -317,7 +322,7 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
                 probing = false,
                 probe = result.getOrNull(),
             )
-            result.onFailure { _message.value = it.message ?: "WARP check failed." }
+            result.onFailure { _message.value = it.message ?: msg(R.string.msg_warp_check_failed) }
         }
     }
 
@@ -326,7 +331,7 @@ class VpnViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) { warpAccounts.clear() }
             _warp.value = WarpUiState()
-            _message.value = "WARP account forgotten. The saved profile was not deleted."
+            _message.value = msg(R.string.msg_warp_forgotten)
         }
     }
 

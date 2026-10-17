@@ -110,4 +110,138 @@
     <string name="providers_back_to_vpn">Back to VPN</string>
     <string name="open_providers">I don\'t have a VPN — what can I use?</string>
 
+    <!-- Device posture findings. Each has a title, a detail and a concrete remediation. -->
+    <string name="posture_private_dns_title">Private DNS is bypassing this scanner</string>
+    <string name="posture_private_dns_detail">Private DNS mode is \'%1$s\' (%2$s). Android sends DNS over TLS straight to that resolver, so queries never reach the scanner\'s DNS interface. Monitoring will look \'broken\' while this is on.</string>
+    <string name="posture_private_dns_fix">Settings \u2192 Network &amp; internet \u2192 Private DNS \u2192 set to \'Off\' while using this scanner. Then restart protection.</string>
+
+    <string name="posture_ad_id_title">Advertising ID is active</string>
+    <string name="posture_ad_id_detail">This is the identifier Discover-Tech used to select individual devices for infection. With it enabled, your device can be singled out in ad auctions.</string>
+    <string name="posture_ad_id_fix">Settings \u2192 Privacy \u2192 Ads \u2192 Delete advertising ID (or opt out of ads personalization).</string>
+
+    <string name="posture_ad_id_unknown_title">Advertising ID state could not be read</string>
+    <string name="posture_ad_id_unknown_detail">The OS did not expose \'limit_ad_tracking\'. Some OEM builds rename this key; verify ad personalization manually.</string>
+    <string name="posture_ad_id_unknown_fix">Settings \u2192 Privacy \u2192 Ads.</string>
+
+    <string name="posture_accessibility_title">Accessibility service with suggestive name enabled</string>
+    <string name="posture_accessibility_detail">Enabled services include %1$s. Accessibility services can read everything on screen and tap on your behalf.</string>
+    <string name="posture_accessibility_fix">Settings \u2192 Accessibility \u2192 review every enabled service and disable anything you did not deliberately install.</string>
+
+    <string name="posture_overlay_title">This app (or another) can draw over other apps</string>
+    <string name="posture_overlay_detail">Overlay permission is a common component of credential-stealing implants.</string>
+    <string name="posture_overlay_fix">Settings \u2192 Apps \u2192 Special access \u2192 Display over other apps.</string>
+
+    <string name="posture_dev_options_title">Developer options / USB debugging enabled</string>
+    <string name="posture_dev_options_detail">USB debugging permits app installation and data extraction by anyone with physical access and an authorised host key.</string>
+    <string name="posture_dev_options_fix">Disable USB debugging unless you are actively developing.</string>
+
+    <string name="posture_unknown_sources_title">Install from unknown sources is allowed</string>
+    <string name="posture_unknown_sources_detail">Sideloaded APKs bypass store review and are how most implants arrive.</string>
+    <string name="posture_unknown_sources_fix">Settings \u2192 Security \u2192 disable unknown sources.</string>
+
+    <string name="posture_other_vpn_title">Another VPN is holding the single VPN slot</string>
+    <string name="posture_other_vpn_detail">\'%1$s\' is the active VPN. Android permits one active VPN per user, so this scanner cannot see any DNS traffic while it is running. Queries to known spyware infrastructure are going unobserved.</string>
+    <string name="posture_other_vpn_fix">Either stop \'%1$s\' and start this scanner, or switch to the tunnel screen and accept that DNS matching is paused. The two modes are mutually exclusive on Android.</string>
+
+    <string name="posture_no_vpn_title">DNS monitoring is not active</string>
+    <string name="posture_no_vpn_detail">No AdFection scanner VPN is running. Without it, queries to known spyware infrastructure go unobserved.</string>
+    <string name="posture_no_vpn_fix">Start the scanner from the main screen.</string>
+
+    <string name="posture_notifications_title">Notifications are blocked</string>
+    <string name="posture_notifications_detail">Blocked DNS events will not be surfaced as notifications.</string>
+    <string name="posture_notifications_fix">Grant notification permission to this app.</string>
+
+    <string name="posture_updates_title">Automatic system updates appear disabled</string>
+    <string name="posture_updates_detail">Chain step 2 requires an unpatched vulnerability to escape the browser sandbox.</string>
+    <string name="posture_updates_fix">Settings \u2192 System \u2192 System update \u2192 enable automatic updates.</string>
+
+    <string name="posture_battery_title">Battery optimisation may suspend monitoring</string>
+    <string name="posture_battery_detail">Android can suspend a background VPN service to save power. While it is suspended the scanner sees no DNS traffic, yet the notification still says protection is active.</string>
+    <string name="posture_battery_fix">Settings \u2192 Apps \u2192 AdFection Scanner \u2192 Battery \u2192 Unrestricted. Then restart protection.</string>
+
+    <string name="posture_always_on_title">Protection does not survive a reboot</string>
+    <string name="posture_always_on_detail">This app is not the always-on VPN, so monitoring stops at restart and stays off until it is started by hand.</string>
+    <string name="posture_always_on_fix">Settings \u2192 Network &amp; internet \u2192 VPN \u2192 AdFection Scanner \u2192 enable \'Always-on VPN\'. Note this also prevents any other VPN (including the WireGuard tunnel screen) from taking the slot.</string>
+
+    <!-- Provider guidance bodies -->
+    <string name="provider_selfhosted_cost">Free on Oracle Cloud Always Free tier; otherwise about $4/month for any small VPS.</string>
+    <string name="provider_selfhosted_how">Install wg-easy (Docker) or Defguard on a small server, or run wg-quick directly. The panel generates the .conf for each device.</string>
+    <string name="provider_selfhosted_sees">You. Nobody else. No third party is in the path.</string>
+    <string name="provider_selfhosted_verdict">The only option with no third party to trust. Best choice if you can spend an hour setting it up — and the right one for journalists, lawyers and activists.</string>
+
+    <string name="provider_warp_cost">Genuinely free, no paid tier, no account purchase.</string>
+    <string name="provider_warp_how">Use \'Register WARP account\' on the VPN screen. The app performs the same registration wgcf does, then stores the profile in its own private storage — there is no file to copy and no terminal involved.</string>
+    <string name="provider_warp_sees">Cloudflare terminates your traffic and sees your source IP and destinations. WARP is not a normal VPN: it is Cloudflare\'s network, and their privacy policy governs it. It also does not hide your IP from Cloudflare.</string>
+    <string name="provider_warp_verdict">The best genuinely-free option, because the generator is open source and auditable. Do not treat it as anonymity against Cloudflare itself. One caveat: Cloudflare refuses WireGuard handshakes in some regions as abuse prevention, and new accounts are being issued the MASQUE transport, which WireGuard cannot speak — use the status check to see which you get.</string>
+
+    <string name="provider_proton_cost">Free tier is permanent, no data cap. Paid tiers add servers and features.</string>
+    <string name="provider_proton_how">Create a free account, then account.protonvpn.com → Downloads → WireGuard configuration → Create. The free plan can generate configs with fewer options.</string>
+    <string name="provider_proton_sees">Proton. They publish audits, are based in Switzerland, and their clients are open source, but they still terminate the tunnel.</string>
+    <string name="provider_proton_verdict">A credible free option with real audits behind it — the honest choice when self-hosting is not possible and Cloudflare is not acceptable.</string>
+
+    <string name="provider_mullvad_cost">5 EUR per month flat, no free tier.</string>
+    <string name="provider_mullvad_how">Create an account number (no email required), then generate WireGuard configs from the account page.</string>
+    <string name="provider_mullvad_sees">Mullvad, who by design cannot tie an account to a person. Payment and account are decoupled.</string>
+    <string name="provider_mullvad_verdict">Best-in-class for metadata minimisation. If you can pay 5 EUR, this is the strongest off-the-shelf choice.</string>
+
+    <string name="provider_ivpn_cost">Paid, roughly $6/month.</string>
+    <string name="provider_ivpn_how">Create an account, then generate WireGuard configs in the client area.</string>
+    <string name="provider_ivpn_sees">IVPN. Audited, no-logs posture, accepts anonymous payment.</string>
+    <string name="provider_ivpn_verdict">Comparable to Mullvad; a reasonable alternative if you prefer their jurisdiction or pricing.</string>
+
+    <string name="provider_riseup_cost">Free, donation-funded, run for activists.</string>
+    <string name="provider_riseup_how">Not importable here: Riseup ships its own Bitmask client rather than WireGuard .conf files. Install their app instead — but note it will take the VPN slot from this scanner.</string>
+    <string name="provider_riseup_sees">Riseup, a long-standing activist collective with a strong record.</string>
+    <string name="provider_riseup_verdict">Excellent trustworthiness for activists, but it is a separate app, so it cannot coexist with this scanner either.</string>
+
+    <string name="provider_warning_body">Avoid free VPN apps from app stores.
+
+Measured findings, not opinion:
+• Of the top 150 free VPN Android apps, 1 in 5 were flagged as potential malware and a quarter had privacy-breaking defects such as DNS leaks (CSIRO / ICSI / UC Berkeley / UNSW, 2017).
+• CNET\'s 2024 research found more than 60% of free VPN apps raised privacy concerns.
+• Repeated disclosures have found free VPN apps logging and selling user traffic, and shipping trackers and malware.
+
+Free VPN apps are usually paid for with your data. For someone being targeted for surveillance, that trades one observer for another — and this time you consented.
+
+If you cannot self-host and cannot pay, prefer the entries above, which publish real WireGuard configurations you can inspect as text and import here.</string>
+
+    <!-- Header labels used when saving provider guidance to a file -->
+    <string name="provider_export_cost">Cost: </string>
+    <string name="provider_export_how">How to get a config:</string>
+    <string name="provider_export_sees">What the operator sees:</string>
+    <string name="provider_export_verdict">Verdict: </string>
+    <string name="provider_export_link">Link: </string>
+
+    <!-- Transient messages shown as toasts from the view models -->
+    <string name="msg_profile_saved">Profile \'%1$s\' saved.</string>
+    <string name="msg_file_unreadable">Could not read the selected file.</string>
+    <string name="msg_disconnect_before_delete">Disconnect \'%1$s\' before deleting it.</string>
+    <string name="msg_profile_unreadable">Profile \'%1$s\' could not be read.</string>
+    <string name="msg_tunnel_connected">Connected to \'%1$s\'. DNS monitoring is paused while the tunnel is up — Android allows only one VPN at a time.</string>
+    <string name="msg_tunnel_closed">Tunnel closed. Start protection to resume DNS monitoring.</string>
+    <string name="msg_scanner_resumed">Scanner active. DNS monitoring resumed.</string>
+    <string name="msg_profiles_imported">Imported %1$d profile(s).</string>
+    <string name="msg_no_conf_found">No .conf files found in the selected folder.</string>
+    <string name="msg_warp_profile_rejected">WARP account created, but the profile was rejected: %1$s</string>
+    <string name="msg_warp_created">WARP account created%1$s. Profile \'%2$s\' is ready to connect.</string>
+    <string name="msg_warp_register_failed">WARP registration failed.</string>
+    <string name="msg_warp_register_first">Register a WARP account first.</string>
+    <string name="msg_warp_regenerated">WARP profile regenerated.</string>
+    <string name="msg_warp_regenerate_failed">Could not regenerate the WARP profile.</string>
+    <string name="msg_warp_check_failed">WARP check failed.</string>
+    <string name="msg_warp_forgotten">WARP account forgotten. The saved profile was not deleted.</string>
+
+    <string name="unknown">unknown</string>
+
+    <!-- Language selection -->
+    <string name="section_language">Language</string>
+    <string name="language_title">App language</string>
+    <string name="language_change">Change</string>
+    <string name="language_picker_title">App language</string>
+    <string name="language_following_system">Following the system language</string>
+    <string name="language_following_system_named">Following the system language (%1$s)</string>
+    <string name="language_changed">Language updated.</string>
+    <string name="language_system_default">System default</string>
+    <string name="language_note">Only this app changes. Your phone\'s language and other apps are unaffected.</string>
+
 </resources>

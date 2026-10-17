@@ -85,7 +85,10 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
                 }
                 .onFailure {
                     _indicatorSummary.value =
-                        getApplication<Application>().getString(R.string.indicators_failed, it.message ?: "unknown")
+                        getApplication<Application>().getString(
+                            R.string.indicators_failed,
+                            it.message ?: getApplication<Application>().getString(R.string.unknown),
+                        )
                 }
         }
         runAudits()

@@ -82,10 +82,13 @@ class ProviderAdapter(
             val context = binding.root.context
 
             binding.textProviderName.text = provider.name
-            binding.textProviderCost.text = provider.cost
-            binding.textProviderHow.text = provider.howToGetConfig
-            binding.textProviderSees.text = context.getString(R.string.provider_operator_sees, provider.operatorSees)
-            binding.textProviderVerdict.text = provider.verdict
+            binding.textProviderCost.text = provider.costText(context)
+            binding.textProviderHow.text = provider.howToGetConfigText(context)
+            binding.textProviderSees.text = context.getString(
+                R.string.provider_operator_sees,
+                provider.operatorSeesText(context),
+            )
+            binding.textProviderVerdict.text = provider.verdictText(context)
 
             val colourRes = when (provider.severity) {
                 dev.adfection.scanner.data.Severity.LOW -> R.color.severity_low

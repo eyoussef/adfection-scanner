@@ -1,18 +1,49 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+}
+
+/**
+ * Release signing.
+ *
+ * Credentials are read from `keystore.properties`, which is gitignored and lives outside the repo —
+ * a store signing key in a public repository would let anyone ship an update as this app. When the
+ * file is absent (CI, a fresh clone, a contributor) the release build is simply left unsigned rather
+ * than failing, so `assembleDebug` and the test suite keep working everywhere.
+ *
+ * Losing this keystore means the published app can never be updated again; it must be backed up
+ * separately from this machine.
+ */
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) {
+        file.inputStream().use { load(it) }
+    }
 }
 
 android {
     namespace = "dev.adfection.scanner"
     compileSdk = 35
 
+    signingConfigs {
+        if (keystoreProperties.isNotEmpty()) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     defaultConfig {
         applicationId = "dev.adfection.scanner"
         minSdk = 29
         targetSdk = 35
-        versionCode = 9
-        versionName = "0.7.0"
+        versionCode = 11
+        versionName = "0.9.0"
     }
 
     buildTypes {
@@ -20,6 +51,11 @@ android {
             // R8 is intentionally disabled: the app ships unobfuscated so defenders can audit it.
             isMinifyEnabled = false
             isShrinkResources = false
+            signingConfig = signingConfigs.findByName("release")
+            // Leave the default signing schemes alone: AGP emits v2 + v3, which covers every API
+            // level this app supports and keeps key-rotation proof. Setting enableV3Signing here
+            // explicitly turned v2 OFF, which apksigner confirmed — a good example of a "safer"
+            // flag doing the opposite.
         }
     }
 

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
 import androidx.core.content.ContextCompat
+import dev.adfection.scanner.R
 import dev.adfection.scanner.data.PostureFinding
 import dev.adfection.scanner.data.Severity
 
@@ -32,13 +33,10 @@ class PostureScanner(private val context: Context) {
                 findings.add(
                     PostureFinding(
                         id = "private_dns_bypass",
-                        title = "Private DNS is bypassing this scanner",
-                        detail = "Private DNS mode is '$mode' ($target). Android sends DNS over TLS " +
-                            "straight to that resolver, so queries never reach the scanner's DNS " +
-                            "interface. Monitoring will look 'broken' while this is on.",
+                        title = context.getString(R.string.posture_private_dns_title),
+                        detail = context.getString(R.string.posture_private_dns_detail, mode, target),
                         severity = Severity.CRITICAL,
-                        remediation = "Settings \u2192 Network & internet \u2192 Private DNS \u2192 set to " +
-                            "'Off' while using this scanner. Then restart protection.",
+                        remediation = context.getString(R.string.posture_private_dns_fix),
                     )
                 )
             }
@@ -51,22 +49,20 @@ class PostureScanner(private val context: Context) {
             findings.add(
                 PostureFinding(
                     id = "ad_id_enabled",
-                    title = "Advertising ID is active",
-                    detail = "This is the identifier Discover-Tech used to select individual devices for " +
-                        "infection. With it enabled, your device can be singled out in ad auctions.",
+                    title = context.getString(R.string.posture_ad_id_title),
+                    detail = context.getString(R.string.posture_ad_id_detail),
                     severity = Severity.HIGH,
-                    remediation = "Settings \u2192 Privacy \u2192 Ads \u2192 Delete advertising ID (or opt out of ads personalization).",
+                    remediation = context.getString(R.string.posture_ad_id_fix),
                 )
             )
         } else if (adIdLimit < 0) {
             findings.add(
                 PostureFinding(
                     id = "ad_id_unknown",
-                    title = "Advertising ID state could not be read",
-                    detail = "The OS did not expose 'limit_ad_tracking'. Some OEM builds rename this key; " +
-                        "verify ad personalization manually.",
+                    title = context.getString(R.string.posture_ad_id_unknown_title),
+                    detail = context.getString(R.string.posture_ad_id_unknown_detail),
                     severity = Severity.LOW,
-                    remediation = "Settings \u2192 Privacy \u2192 Ads.",
+                    remediation = context.getString(R.string.posture_ad_id_unknown_fix),
                 )
             )
         }
@@ -81,11 +77,13 @@ class PostureScanner(private val context: Context) {
             findings.add(
                 PostureFinding(
                     id = "accessibility_sideloaded",
-                    title = "Accessibility service with suggestive name enabled",
-                    detail = "Enabled services include ${suspiciousAccessibility.joinToString(", ")}. " +
-                        "Accessibility services can read everything on screen and tap on your behalf.",
+                    title = context.getString(R.string.posture_accessibility_title),
+                    detail = context.getString(
+                        R.string.posture_accessibility_detail,
+                        suspiciousAccessibility.joinToString(", "),
+                    ),
                     severity = Severity.HIGH,
-                    remediation = "Settings \u2192 Accessibility \u2192 review every enabled service and disable anything you did not deliberately install.",
+                    remediation = context.getString(R.string.posture_accessibility_fix),
                 )
             )
         }
@@ -95,10 +93,10 @@ class PostureScanner(private val context: Context) {
             findings.add(
                 PostureFinding(
                     id = "overlay_permission",
-                    title = "This app (or another) can draw over other apps",
-                    detail = "Overlay permission is a common component of credential-stealing implants.",
+                    title = context.getString(R.string.posture_overlay_title),
+                    detail = context.getString(R.string.posture_overlay_detail),
                     severity = Severity.MEDIUM,
-                    remediation = "Settings \u2192 Apps \u2192 Special access \u2192 Display over other apps.",
+                    remediation = context.getString(R.string.posture_overlay_fix),
                 )
             )
         }
@@ -114,11 +112,10 @@ class PostureScanner(private val context: Context) {
             findings.add(
                 PostureFinding(
                     id = "developer_options",
-                    title = "Developer options / USB debugging enabled",
-                    detail = "USB debugging permits app installation and data extraction by anyone with " +
-                        "physical access and an authorised host key.",
+                    title = context.getString(R.string.posture_dev_options_title),
+                    detail = context.getString(R.string.posture_dev_options_detail),
                     severity = Severity.MEDIUM,
-                    remediation = "Disable USB debugging unless you are actively developing.",
+                    remediation = context.getString(R.string.posture_dev_options_fix),
                 )
             )
         }
@@ -131,10 +128,10 @@ class PostureScanner(private val context: Context) {
                 findings.add(
                     PostureFinding(
                         id = "unknown_sources",
-                        title = "Install from unknown sources is allowed",
-                        detail = "Sideloaded APKs bypass store review and are how most implants arrive.",
+                        title = context.getString(R.string.posture_unknown_sources_title),
+                        detail = context.getString(R.string.posture_unknown_sources_detail),
                         severity = Severity.MEDIUM,
-                        remediation = "Settings \u2192 Security \u2192 disable unknown sources.",
+                        remediation = context.getString(R.string.posture_unknown_sources_fix),
                     )
                 )
             }
@@ -149,23 +146,18 @@ class PostureScanner(private val context: Context) {
                 if (otherVpn != null) {
                     PostureFinding(
                         id = "vpn_blind_spot_other",
-                        title = "Another VPN is holding the single VPN slot",
-                        detail = "'$otherVpn' is the active VPN. Android permits one active VPN per " +
-                            "user, so this scanner cannot see any DNS traffic while it is running. " +
-                            "Queries to known spyware infrastructure are going unobserved.",
+                        title = context.getString(R.string.posture_other_vpn_title),
+                        detail = context.getString(R.string.posture_other_vpn_detail, otherVpn),
                         severity = Severity.HIGH,
-                        remediation = "Either stop '$otherVpn' and start this scanner, or switch to " +
-                            "the tunnel screen and accept that DNS matching is paused. The two modes " +
-                            "are mutually exclusive on Android.",
+                        remediation = context.getString(R.string.posture_other_vpn_fix, otherVpn),
                     )
                 } else {
                     PostureFinding(
                         id = "vpn_blind_spot",
-                        title = "DNS monitoring is not active",
-                        detail = "No AdFection scanner VPN is running. Without it, queries to known " +
-                            "spyware infrastructure go unobserved.",
+                        title = context.getString(R.string.posture_no_vpn_title),
+                        detail = context.getString(R.string.posture_no_vpn_detail),
                         severity = Severity.MEDIUM,
-                        remediation = "Start the scanner from the main screen.",
+                        remediation = context.getString(R.string.posture_no_vpn_fix),
                     )
                 }
             )
@@ -179,10 +171,10 @@ class PostureScanner(private val context: Context) {
             findings.add(
                 PostureFinding(
                     id = "notifications_denied",
-                    title = "Notifications are blocked",
-                    detail = "Blocked DNS events will not be surfaced as notifications.",
+                    title = context.getString(R.string.posture_notifications_title),
+                    detail = context.getString(R.string.posture_notifications_detail),
                     severity = Severity.LOW,
-                    remediation = "Grant notification permission to this app.",
+                    remediation = context.getString(R.string.posture_notifications_fix),
                 )
             )
         }
@@ -192,10 +184,10 @@ class PostureScanner(private val context: Context) {
             findings.add(
                 PostureFinding(
                     id = "updates_manual",
-                    title = "Automatic system updates appear disabled",
-                    detail = "Chain step 2 requires an unpatched vulnerability to escape the browser sandbox.",
+                    title = context.getString(R.string.posture_updates_title),
+                    detail = context.getString(R.string.posture_updates_detail),
                     severity = Severity.MEDIUM,
-                    remediation = "Settings \u2192 System \u2192 System update \u2192 enable automatic updates.",
+                    remediation = context.getString(R.string.posture_updates_fix),
                 )
             )
         }
@@ -207,13 +199,10 @@ class PostureScanner(private val context: Context) {
             findings.add(
                 PostureFinding(
                     id = "battery_optimised",
-                    title = "Battery optimisation may suspend monitoring",
-                    detail = "Android can suspend a background VPN service to save power. While it is " +
-                        "suspended the scanner sees no DNS traffic, yet the notification still says " +
-                        "protection is active.",
+                    title = context.getString(R.string.posture_battery_title),
+                    detail = context.getString(R.string.posture_battery_detail),
                     severity = Severity.MEDIUM,
-                    remediation = "Settings \u2192 Apps \u2192 AdFection Scanner \u2192 Battery \u2192 " +
-                        "Unrestricted. Then restart protection.",
+                    remediation = context.getString(R.string.posture_battery_fix),
                 )
             )
         }
@@ -224,13 +213,10 @@ class PostureScanner(private val context: Context) {
             findings.add(
                 PostureFinding(
                     id = "not_always_on",
-                    title = "Protection does not survive a reboot",
-                    detail = "This app is not the always-on VPN, so monitoring stops at restart and " +
-                        "stays off until it is started by hand.",
+                    title = context.getString(R.string.posture_always_on_title),
+                    detail = context.getString(R.string.posture_always_on_detail),
                     severity = Severity.LOW,
-                    remediation = "Settings \u2192 Network & internet \u2192 VPN \u2192 AdFection Scanner " +
-                        "\u2192 enable 'Always-on VPN'. Note this also prevents any other VPN (including " +
-                        "the WireGuard tunnel screen) from taking the slot.",
+                    remediation = context.getString(R.string.posture_always_on_fix),
                 )
             )
         }

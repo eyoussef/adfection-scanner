@@ -37,7 +37,7 @@ class ProvidersActivity : AppCompatActivity() {
             this.adapter = adapter
             isNestedScrollingEnabled = false
         }
-        adapter.submit(Provider.all(), Provider.freeVpnAppWarning())
+        adapter.submit(Provider.all(), Provider.freeVpnAppWarning(this))
 
         binding.buttonBack.setOnClickListener { finish() }
     }
@@ -57,14 +57,18 @@ class ProvidersActivity : AppCompatActivity() {
      * with no storage permission by design and should not request one just to save notes.
      */
     private fun saveGuide(provider: Provider) {
+        // Captured before buildString: inside its lambda `this` is the StringBuilder.
+        val ctx = this
         val text = buildString {
             append(provider.name).append('\n')
             append("=".repeat(provider.name.length)).append("\n\n")
-            append("Cost: ").append(provider.cost).append("\n\n")
-            append("How to get a config:\n").append(provider.howToGetConfig).append("\n\n")
-            append("What the operator sees:\n").append(provider.operatorSees).append("\n\n")
-            append("Verdict: ").append(provider.verdict).append("\n\n")
-            append("Link: ").append(provider.url).append('\n')
+            append(ctx.getString(R.string.provider_export_cost)).append(provider.costText(ctx)).append("\n\n")
+            append(ctx.getString(R.string.provider_export_how)).append('\n')
+                .append(provider.howToGetConfigText(ctx)).append("\n\n")
+            append(ctx.getString(R.string.provider_export_sees)).append('\n')
+                .append(provider.operatorSeesText(ctx)).append("\n\n")
+            append(ctx.getString(R.string.provider_export_verdict)).append(provider.verdictText(ctx)).append("\n\n")
+            append(ctx.getString(R.string.provider_export_link)).append(provider.url).append('\n')
         }
 
         val dir = File(getExternalFilesDir(null), "providers").apply { mkdirs() }
