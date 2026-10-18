@@ -25,6 +25,29 @@ Citizen Lab as *AdFection* (Report 195, 15 Oct 2026), plus the surrounding ad-in
 This is a defensive triage tool for journalists, researchers and at-risk individuals — the
 population Citizen Lab identifies as the primary target of this campaign.
 
+## Install
+
+Download the signed APK from [**Releases**](https://github.com/eyoussef/adfection-scanner/releases/latest):
+
+```
+AdFectionScanner-<version>-release.apk
+```
+
+Android 10 (API 29) or newer. Signed with a 4096-bit RSA release key using APK Signature Scheme v2.
+
+```bash
+# Verify the signature before installing, if you like
+apksigner verify --print-certs AdFectionScanner-0.9.0-release.apk
+# SHA-256: b3a992689094f9e4fe3abe6ccde224a1c3eb3a9f1c2b031c9ca615979f018ee4
+```
+
+This is a security tool distributed out-of-band, not through a store. Android will warn about
+installing from an unknown source; that warning is correct in general and expected here.
+
+> **On the audit screenshots below:** the application audit ranks by permission breadth, so a
+> terminal emulator or developer tool can score higher than an actual implant. Treat the ranking as
+> "worth inspecting", not as a verdict — see [Reading the app audit](#reading-the-app-audit).
+
 ## Screenshots
 
 <p align="center">
@@ -39,10 +62,6 @@ population Citizen Lab identifies as the primary target of this campaign.
   <sub>Main console · VPN and WARP · Application audit &nbsp;—&nbsp;
   <a href="docs/screenshots">all six screenshots</a></sub>
 </p>
-
-> **Note on the audit screenshots:** the application audit ranks by permission breadth, so a
-> terminal emulator or a developer tool can score higher than an actual implant. Treat the ranking
-> as "worth inspecting", not as a verdict. See [Reading the app audit](#reading-the-app-audit).
 
 ## What it detects
 
@@ -335,7 +354,7 @@ the install step does not.
 
 ### Verification performed
 
-1. **Unit tests — 108 tests, 0 failures** (`:app:testDebugUnitTest`). These are not smoke tests; they
+1. **Unit tests — 119 tests, 0 failures** (`:app:testDebugUnitTest`). These are not smoke tests; they
    caught four real defects during development:
    - `Dns.parseQuery` started name decoding at offset 0 instead of after the 12-byte header;
    - compression-pointer handling allowed self-referential pointers, which would spin a label loop;
